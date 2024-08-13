@@ -16,7 +16,7 @@ import dev.yuanzix.beatify.ui.viewmodels.AuthViewModel
 fun EmailInput(viewModel: AuthViewModel) {
     OutlinedTextField(
         value = viewModel.email,
-        onValueChange = { viewModel.updateEmail(it) },
+        onValueChange = { viewModel.updateField("email", it) },
         label = { Text("Email") },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -30,7 +30,7 @@ fun EmailInput(viewModel: AuthViewModel) {
 fun PasswordInput(viewModel: AuthViewModel) {
     OutlinedTextField(
         value = viewModel.password,
-        onValueChange = { viewModel.updatePassword(it) },
+        onValueChange = { viewModel.updateField("password", it) },
         label = { Text("Password") },
         singleLine = true,
         visualTransformation = PasswordVisualTransformation(),

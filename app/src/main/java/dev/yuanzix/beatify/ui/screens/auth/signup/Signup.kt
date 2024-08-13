@@ -17,9 +17,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,9 +32,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import dev.yuanzix.beatify.navigation.Destination
+import dev.yuanzix.beatify.R
+import dev.yuanzix.beatify.data.auth_repository.utils.CreateUserResponse
 import dev.yuanzix.beatify.ui.screens.auth.utils.EmailInput
+import dev.yuanzix.beatify.ui.screens.auth.utils.ErrorDialog
+import dev.yuanzix.beatify.ui.screens.auth.utils.LoadingIndicatorDialog
 import dev.yuanzix.beatify.ui.screens.auth.utils.LottieSection
 import dev.yuanzix.beatify.ui.screens.auth.utils.MainActionButton
 import dev.yuanzix.beatify.ui.screens.auth.utils.PasswordInput
@@ -47,11 +48,28 @@ import kotlinx.coroutines.delay
 @Composable
 fun SignUpScreen(
     viewModel: AuthViewModel = hiltViewModel(),
-    navController: NavHostController,
+    onNavigateToLogin: () -> Unit,
+    onNavigateToVerifyEmail: () -> Unit,
 ) {
     val signupResult by viewModel.signupResult.collectAsState()
     var isSignupEnabled by remember { mutableStateOf(false) }
     var showContent by remember { mutableStateOf(false) }
+
+    LaunchedEffect(signupResult) {
+        signupResult?.let { result ->
+            if (result.error == CreateUserResponse.SUCCESS) {
+                onNavigateToVerifyEmail()
+            }
+        }
+    }
+
+    LoadingIndicatorDialog(showDialog = viewModel.showLoadingDialog) {
+        viewModel.toggleLoadingDialog()
+    }
+
+    ErrorDialog(showDialog = viewModel.showErrorDialog, content = viewModel.errorMessage) {
+        viewModel.dismissErrorDialog()
+    }
 
     LaunchedEffect(
         viewModel.email,
@@ -76,21 +94,25 @@ fun SignUpScreen(
         showContent = true
     }
 
-    Surface(
-        modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
+    Scaffold(
+        modifier = Modifier.fillMaxSize()
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(Padding.Small)
+                .padding(it)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            LottieSection(showContent, 250)
+            LottieSection(showContent, 250, R.raw.login_signup)
             SignUpInputSection(viewModel, showContent)
             MainActionButton({ viewModel.signUp() }, "Sign Up", showContent, isSignupEnabled)
-            SubActionButton( { navController.navigate(Destination.AuthLoginScreen) }, "Already a user? Log in", showContent)
+            SubActionButton(
+                { onNavigateToLogin() },
+                "Already a user? Log in",
+                showContent
+            )
         }
     }
 }
@@ -110,7 +132,13 @@ fun SignUpInputSection(viewModel: AuthViewModel, showContent: Boolean) {
             EmailInput(viewModel)
             UsernameInput(viewModel)
             DateOfBirthInput(viewModel.dateOfBirth) { viewModel.toggleDatePicker() }
-            if (viewModel.showDatePicker) ModalDatePicker({ viewModel.updateDateOfBirth(it) }, { viewModel.toggleDatePicker() })
+            if (viewModel.showDatePicker) ModalDatePicker({
+                viewModel.updateField(
+                    "dateOfBirth",
+                    it
+                )
+            },
+                { viewModel.toggleDatePicker() })
             PasswordInput(viewModel)
         }
     }
@@ -123,7 +151,7 @@ fun NameInput(viewModel: AuthViewModel) {
     ) {
         OutlinedTextField(
             value = viewModel.firstName,
-            onValueChange = { viewModel.updateFirstName(it) },
+            onValueChange = { viewModel.updateField("firstName", it) },
             label = { Text("First Name") },
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -133,7 +161,7 @@ fun NameInput(viewModel: AuthViewModel) {
         )
         OutlinedTextField(
             value = viewModel.lastName,
-            onValueChange = { viewModel.updateLastName(it) },
+            onValueChange = { viewModel.updateField("lastName", it) },
             label = { Text("Last Name") },
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -148,7 +176,7 @@ fun NameInput(viewModel: AuthViewModel) {
 fun UsernameInput(viewModel: AuthViewModel) {
     OutlinedTextField(
         value = viewModel.username,
-        onValueChange = { viewModel.updateUsername(it) },
+        onValueChange = { viewModel.updateField("username", it) },
         label = { Text("Username") },
         singleLine = true,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -168,8 +196,7 @@ fun DateOfBirthInput(value: String, onClick: () -> Unit) {
         trailingIcon = {
             IconButton(onClick) {
                 Icon(
-                    imageVector = Icons.Default.DateRange,
-                    contentDescription = "Select date"
+                    imageVector = Icons.Default.DateRange, contentDescription = "Select date"
                 )
             }
         },

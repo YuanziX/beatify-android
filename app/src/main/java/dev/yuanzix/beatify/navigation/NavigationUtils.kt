@@ -2,32 +2,31 @@ package dev.yuanzix.beatify.navigation
 
 import kotlinx.serialization.Serializable
 
-sealed class SubGraph {
-    @Serializable
-    data object StartNav : SubGraph()
-
-    @Serializable
-    data object AuthNav : SubGraph()
-
-    @Serializable
-    data object DashNav : SubGraph()
-}
-
 sealed class Destination {
     @Serializable
     data object StartScreen : Destination()
 
     @Serializable
-    data object AuthLoginScreen : Destination()
-    @Serializable
-    data object AuthSignupScreen : Destination()
-    @Serializable
-    data object AuthVerifyEmailScreen : Destination()
+    object Auth {
+        @Serializable
+        data object LoginScreen : Destination()
+
+        @Serializable
+        data object SignupScreen : Destination()
+
+        @Serializable
+        data object VerifyEmailScreen : Destination()
+    }
 
     @Serializable
-    data object DashHomeScreen : Destination()
-    @Serializable
-    data object DashSettingsScreen : Destination()
-    @Serializable
-    data object DashPlaylistScreen : Destination()
+    object Dash {
+        @Serializable
+        data object HomeScreen : Destination()
+
+        @Serializable
+        data object SettingsScreen : Destination()
+
+        @Serializable
+        data object PlaylistScreen : Destination()
+    }
 }

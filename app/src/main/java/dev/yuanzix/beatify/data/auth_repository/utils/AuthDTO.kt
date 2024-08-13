@@ -1,4 +1,4 @@
-package dev.yuanzix.beatify.data.loginSignupRepository.utils
+package dev.yuanzix.beatify.data.auth_repository.utils
 
 @kotlinx.serialization.Serializable
 data class UserDto(
@@ -7,11 +7,11 @@ data class UserDto(
     val first_name: String,
     val last_name: String,
     val password: String,
-    val date_of_birth: String
+    val date_of_birth: String,
 )
 
 @kotlinx.serialization.Serializable
 data class LoginDto(
     val email: String,
-    val password: String
+    val password: String,
 )

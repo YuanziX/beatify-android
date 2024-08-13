@@ -1,5 +1,6 @@
 package dev.yuanzix.beatify.ui.screens.auth.utils
 
+import androidx.annotation.RawRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -12,12 +13,11 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
-import dev.yuanzix.beatify.R
 
 
 @Composable
-fun LottieSection(showContent: Boolean, size: Int) {
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_signup))
+fun LottieSection(showContent: Boolean, size: Int = 400, @RawRes resourceID: Int) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(resourceID))
 
     AnimatedVisibility(
         visible = showContent,

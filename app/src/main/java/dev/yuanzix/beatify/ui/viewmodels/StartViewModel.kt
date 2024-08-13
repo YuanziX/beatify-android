@@ -9,5 +9,5 @@ import javax.inject.Inject
 class StartViewModel @Inject constructor(
     private val dataStoreRepository: DataStoreRepository,
 ) : ViewModel() {
-    val userSettingsFlow = dataStoreRepository.userSettingsFlow
+    val userSettingsFlow = dataStoreRepository.userSettings
 }

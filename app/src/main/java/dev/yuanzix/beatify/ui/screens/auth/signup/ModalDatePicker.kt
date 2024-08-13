@@ -15,7 +15,7 @@ import java.util.Locale
 @Composable
 fun ModalDatePicker(
     onDateSelected: (String) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     val datePickerState = rememberDatePickerState()
 
