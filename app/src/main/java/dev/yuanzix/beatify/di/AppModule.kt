@@ -7,7 +7,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.yuanzix.beatify.data.DataStoreRepository
-import dev.yuanzix.beatify.data.auth_repository.AuthRepository
+import dev.yuanzix.beatify.data.authRepository.AuthRepository
+import dev.yuanzix.beatify.data.musicRepository.MusicRepository
 import javax.inject.Singleton
 
 @Module
@@ -15,7 +16,11 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideLoginSignupRepository() = AuthRepository()
+    fun provideAuthRepository() = AuthRepository()
+
+    @Provides
+    @Singleton
+    fun provideMusicRepository() = MusicRepository()
 
     @Provides
     @Singleton

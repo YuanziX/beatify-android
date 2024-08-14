@@ -8,7 +8,7 @@ import dev.yuanzix.beatify.ui.screens.StartScreen
 import dev.yuanzix.beatify.ui.screens.auth.login.LoginScreen
 import dev.yuanzix.beatify.ui.screens.auth.signup.SignUpScreen
 import dev.yuanzix.beatify.ui.screens.auth.verify_email.VerifyEmailScreen
-import dev.yuanzix.beatify.ui.screens.home.home.HomeScreen
+import dev.yuanzix.beatify.ui.screens.home.DashScreen
 
 @Composable
 fun MainNavigation() {
@@ -23,7 +23,7 @@ fun MainNavigation() {
 
                 }
             }, onNavigateToDash = {
-                navController.navigate(Destination.Dash.HomeScreen) {
+                navController.navigate(Destination.DashNav) {
                     popUpTo(Destination.StartScreen) { inclusive = true }
                 }
             })
@@ -31,7 +31,7 @@ fun MainNavigation() {
 
         composable<Destination.Auth.LoginScreen> {
             LoginScreen(onLoginSuccess = {
-                navController.navigate(Destination.Dash.HomeScreen) {
+                navController.navigate(Destination.DashNav) {
                     popUpTo(Destination.Auth.LoginScreen) { inclusive = true }
                 }
             }, onNavigateToSignup = {
@@ -51,14 +51,14 @@ fun MainNavigation() {
 
         composable<Destination.Auth.VerifyEmailScreen> {
             VerifyEmailScreen(onVerificationSuccess = {
-                navController.navigate(Destination.Dash.HomeScreen) {
+                navController.navigate(Destination.DashNav) {
                     popUpTo(Destination.Auth.LoginScreen) { inclusive = true }
                 }
             })
         }
 
-        composable<Destination.Dash.HomeScreen> {
-            HomeScreen()
+        composable<Destination.DashNav> {
+            DashScreen(mainNavController = navController)
         }
     }
 }

@@ -1,4 +1,4 @@
-package dev.yuanzix.beatify.data.auth_repository.utils
+package dev.yuanzix.beatify.data.authRepository.utils
 
 enum class CreateUserResponse {
     SUCCESS,

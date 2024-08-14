@@ -8,9 +8,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.yuanzix.beatify.data.DataStoreRepository
 import dev.yuanzix.beatify.data.NetworkResult
-import dev.yuanzix.beatify.data.auth_repository.AuthRepository
-import dev.yuanzix.beatify.data.auth_repository.utils.CreateUserResponse
-import dev.yuanzix.beatify.data.auth_repository.utils.LoginResponse
+import dev.yuanzix.beatify.data.authRepository.AuthRepository
+import dev.yuanzix.beatify.data.authRepository.utils.CreateUserResponse
+import dev.yuanzix.beatify.data.authRepository.utils.LoginResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -85,7 +85,7 @@ class AuthViewModel @Inject constructor(
                     dateOfBirth
                 )
                 _signupResult.value = result
-                if (result.error != CreateUserResponse.SUCCESS) {
+                if (result.response != CreateUserResponse.SUCCESS) {
                     showError(result.message ?: "An error occurred during sign up")
                 }
             } catch (e: Exception) {
@@ -102,13 +102,13 @@ class AuthViewModel @Inject constructor(
             try {
                 val result = repository.loginUser(email, password)
                 _loginResult.value = result
-                if (result.error == LoginResponse.SUCCESS) {
+                if (result.response == LoginResponse.SUCCESS) {
                     dataStoreRepository.updateUserSettings(
                         email = email,
                         jwtTokenString = result.data
                     )
                 }
-                if (result.error != LoginResponse.SUCCESS && result.error != LoginResponse.NOT_VERIFIED) {
+                if (result.response != LoginResponse.SUCCESS && result.response != LoginResponse.NOT_VERIFIED) {
                     showError(result.message ?: "An error occurred during login")
                 }
             } catch (e: Exception) {

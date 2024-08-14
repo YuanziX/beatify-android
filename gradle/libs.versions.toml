@@ -53,6 +53,7 @@ ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
 exoPlayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "exoPlayer" }
 androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "exoPlayer" }
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
+material-icons-extended = {  group = "androidx.compose.material", name = "material-icons-extended", version = "1.7.0-beta07"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

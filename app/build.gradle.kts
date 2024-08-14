@@ -103,4 +103,7 @@ dependencies {
 
     // lottie
     implementation(libs.lottie)
+
+    // icons
+    implementation(libs.material.icons.extended)
 }

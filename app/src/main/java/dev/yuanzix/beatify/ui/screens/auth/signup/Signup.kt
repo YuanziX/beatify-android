@@ -33,7 +33,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.yuanzix.beatify.R
-import dev.yuanzix.beatify.data.auth_repository.utils.CreateUserResponse
+import dev.yuanzix.beatify.data.authRepository.utils.CreateUserResponse
 import dev.yuanzix.beatify.ui.screens.auth.utils.EmailInput
 import dev.yuanzix.beatify.ui.screens.auth.utils.ErrorDialog
 import dev.yuanzix.beatify.ui.screens.auth.utils.LoadingIndicatorDialog
@@ -57,7 +57,7 @@ fun SignUpScreen(
 
     LaunchedEffect(signupResult) {
         signupResult?.let { result ->
-            if (result.error == CreateUserResponse.SUCCESS) {
+            if (result.response == CreateUserResponse.SUCCESS) {
                 onNavigateToVerifyEmail()
             }
         }

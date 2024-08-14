@@ -1,5 +1,9 @@
 package dev.yuanzix.beatify.navigation
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.ui.graphics.vector.ImageVector
 import kotlinx.serialization.Serializable
 
 sealed class Destination {
@@ -19,6 +23,9 @@ sealed class Destination {
     }
 
     @Serializable
+    data object DashNav : Destination()
+
+    @Serializable
     object Dash {
         @Serializable
         data object HomeScreen : Destination()
@@ -30,3 +37,13 @@ sealed class Destination {
         data object PlaylistScreen : Destination()
     }
 }
+
+sealed class NavigationBarItems(val route: Destination, val title: String, val icon: ImageVector) {
+    data object Home : NavigationBarItems(Destination.Dash.HomeScreen, "Home Screen", Icons.Rounded.Home)
+    data object Playlist : NavigationBarItems(Destination.Dash.PlaylistScreen, "Playlist Screen", Icons.Rounded.PlayArrow)
+}
+
+val navBarItems = listOf(
+    NavigationBarItems.Home,
+    NavigationBarItems.Playlist,
+)

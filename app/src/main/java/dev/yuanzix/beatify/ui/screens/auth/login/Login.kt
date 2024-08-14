@@ -23,7 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import dev.yuanzix.beatify.R
-import dev.yuanzix.beatify.data.auth_repository.utils.LoginResponse
+import dev.yuanzix.beatify.data.authRepository.utils.LoginResponse
 import dev.yuanzix.beatify.ui.screens.auth.utils.EmailInput
 import dev.yuanzix.beatify.ui.screens.auth.utils.ErrorDialog
 import dev.yuanzix.beatify.ui.screens.auth.utils.LoadingIndicatorDialog
@@ -55,9 +55,9 @@ fun LoginScreen(
 
     LaunchedEffect(loginResult) {
         loginResult?.let { result ->
-            if (result.error == LoginResponse.NOT_VERIFIED) {
+            if (result.response == LoginResponse.NOT_VERIFIED) {
                 onNavigateToVerifyEmail()
-            } else if (result.error == LoginResponse.SUCCESS) {
+            } else if (result.response == LoginResponse.SUCCESS) {
                 onLoginSuccess()
             }
         }
